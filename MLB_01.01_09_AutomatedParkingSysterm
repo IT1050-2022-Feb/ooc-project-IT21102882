@@ -1,0 +1,502 @@
+//Registration        No	Name 	                   Personal Contribution
+//IT21102882	        Malsha H.D.R	               Payment (cpp file and header file)
+//IT21190452	        Senevirathne S.M.R.H	       Registered User,Unregistered User and eport (cpp file and header file)
+//IT21158940	        Jayawardhana R.M.K.S	       Admin Panel (cpp file and header file)
+//IT21190902	        Hettiaratchi A.O.T  	       Subscription Plan (cpp file and header file)
+//IT21174094	        Alahakoon A.A.T.N.B	         vehicle (cpp file and header file)
+
+
+
+
+
+
+#pragma once
+#include "Unreg_User.h"
+
+class Reg_User :public Unreg_User
+{
+
+	protected:
+		char custUsername[10];
+		char custPassword[10];
+	public:
+		Reg_User();
+		Reg_User(const char pcustUsername[], const char
+			pcustPassword[], int pcustid, const char pcustName[], const char
+			pcustAddress[], const char pcustEmail[], const char pcustNo[]);
+		void displayDetails();
+		void login();
+		void logout();
+		char checkLoginDetails();
+		~Reg_User();
+};
+
+
+
+
+#pragma once
+#include "Vehicle.h"
+class Unreg_User
+{
+protected:
+	int custID;
+	char custName[20];
+	char custAddress[30];
+	char custEmail[30];
+	char custphoneNumber[10];
+public:
+	Unreg_User();
+	Unreg_User(int pcustid, const char pcustName[], const char
+		pcustAddress[], const char pcustEmail[], const char custPHno[]);
+	void registerUser();
+	virtual void displayDetails();
+	~Unreg_User();
+};
+
+
+#pragma once
+#include "Vehicle.h"
+#define SIZE 5 
+class Admin_Panel
+{
+private:
+	int adminID;
+	char adminName[20];
+	char adminEmail[20];
+	char adminNumber[10];
+	char adminUsername[20];
+	char adminPassword[20];
+
+	Vehicle* vhl[SIZE];
+public:
+	Admin_Panel();
+	Admin_Panel(int padminID, const char padminName[], const char
+		padminEmail[], const char padminNumber[], const char
+		padminUsername[], const char padminPassword[]);
+	void login(const char admUsername, const char admPsword);
+	void manage(Vehicle* pvhl);
+	~Admin_Panel();
+};
+
+
+
+
+#pragma once
+#pragma warning
+#include "Admin_Panel.h"
+#include "Subcription.h"
+#include "Reg_User.h"
+#define SIZE1 2
+class Vehicle
+{
+private:
+	int vehicleID;
+	char vehicleOwner[50];
+	int count = 0;
+
+	Subcription* plan[SIZE1];
+	Admin_Panel* admin_panel;
+	Reg_User* reg_user;
+public:
+	Vehicle();
+	Vehicle(int plan1, int plan2, Admin_Panel* padmin, Reg_User* ruserid);
+	void vehicleDetails(int vhlID, const char vhlOwner, Admin_Panel* padmin);
+	void deleteVehicleDetails();
+	void updateVehicleDetails();
+	void displayvhlDetails();
+	void checkAvailability();
+	~Vehicle();
+};
+
+
+
+#pragma once
+class Payment
+{
+private:
+	int payID;
+	char payType[20];
+	double payAmount;
+public:
+	Payment();
+	Payment(int pID, const char ppayType[], double ppayAmount);
+	void checkPayment();
+	void confirmPayment();
+	void displayPaymentDetails();
+	~Payment();
+};
+
+
+
+
+
+#pragma once
+#include"Payment.h"
+#define SIZE 2
+	class Subcription {
+	private:
+		char PlanID[10];
+		char PlanDate[20];
+		char PlanDescription[50];
+		double PlanPrice;
+		int count = 0;
+		Payment* payment[SIZE];
+	public:
+		Subcription();
+		Subcription(const char pplanID[], const char pplanDate[], const
+			char pplanDescription[], double pplanPrice, int pay1, int pay2);
+		void calculatePlanPrice(int id, char pType[], double pAmt);
+		void displayPlanPrice();
+		void addSubcription();
+		~Subcription();
+	};
+
+
+
+
+
+
+
+#pragma once
+#include "Subcription.h"
+#include"Payment.h"
+#define SIZE1 5
+#define SIZE2 5
+#define SIZE3 5
+	class Report
+	{
+	private:
+		Subcription* plan[SIZE1];
+		Payment* pay[SIZE3];
+	public:
+		Report();
+		Report(Subcription* pbbok[], Payment* ppay[]);
+		void planingDetailsReport();
+		void paymentDetailsReport();
+		~Report();
+	};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include "Reg_User.h"
+#include <cstring>
+#pragma warning(disable : 4996)
+Reg_User::Reg_User()
+{
+	strcpy(custUsername, "");
+	strcpy(custPassword, "");
+}
+Reg_User::Reg_User(const char pcustUsername[],
+	const char pcustPassword[], int pcustid, const char pcustName[],
+	const char pcustAddress[], const char pcustEmail[], const char
+	pcustNo[]) : Unreg_User(pcustid, pcustName, pcustAddress, pcustEmail,
+		pcustNo)
+{
+	strcpy(custUsername, pcustUsername);
+	strcpy(custPassword, pcustPassword);
+}
+void Reg_User::displayDetails()
+{ }
+void Reg_User::login()
+{ }
+void Reg_User::logout()
+{ }
+char Reg_User::checkLoginDetails()
+{
+	return 0;
+}
+Reg_User::~Reg_User()
+{
+	//Destructor
+}
+
+
+
+
+
+#include "Unreg_User.h"
+#include <cstring>
+#pragma warning(disable : 4996)
+Unreg_User::Unreg_User()
+{
+	custID = 0;
+	strcpy(custName, "");
+	strcpy(custAddress, "");
+	strcpy(custEmail, "");
+	strcpy(custphoneNumber, "0000000000");
+}
+Unreg_User::Unreg_User(int pcustid, const char pcustName[], const char
+	pcustAddress[], const char pcustEmail[], const char custPHno[])
+{
+	custID = pcustid;
+	strcpy(custName, pcustName);
+	strcpy(custAddress, pcustAddress);
+	strcpy(custEmail, pcustEmail);
+	strcpy(custphoneNumber, custPHno);
+}
+
+void Unreg_User::registerUser()
+{ }
+void Unreg_User::displayDetails()
+{ }
+Unreg_User::~Unreg_User()
+{
+	//Destructor
+}
+
+
+
+#pragma warning(disable : 4996)
+#include "Admin_Panel.h"
+#include "Vehicle.h"
+#include<cstring>
+#define SIZE 2
+Admin_Panel::Admin_Panel()
+{
+	adminID = 0;
+	strcpy(adminName, "");
+	strcpy(adminEmail, "");
+	strcpy(adminNumber, "0000000000");
+	strcpy(adminUsername, "");
+	strcpy(adminPassword, "");
+}
+Admin_Panel::Admin_Panel(int padminID, const char padminName[], const char
+	padminEmail[], const char padminNumber[], const char
+	padminUsername[], const char padminPassword[])
+{
+	adminID = padminID;
+	strcpy(adminName, padminName);
+	strcpy(adminEmail, padminEmail);
+	strcpy(adminNumber, padminNumber);
+	strcpy(adminUsername, padminUsername);
+	strcpy(adminPassword, padminPassword);
+}
+void Admin_Panel::login(const char admUsername, const char admPsword)
+{ }
+void Admin_Panel::manage(Vehicle* pvhl)
+{ }
+Admin_Panel::~Admin_Panel()
+{
+	//Destructor
+	for (int i = 0; i < SIZE; i++)
+	{
+		delete vhl[i];
+	}
+}
+
+
+
+#include "Vehicle.h"
+#include "Subcription.h"
+#include "Reg_User.h"
+#define SIZE1 2
+#define SIZE2 2
+Vehicle::Vehicle()
+{ }
+Vehicle::Vehicle(int plan1, int plan2, Admin_Panel* padmin, Reg_User* ruserid)
+{
+	plan[0] = new Subcription (plan1);
+	plan[1] = new Subcription (plan2);
+	admin_panel = padmin;
+	reg_user = ruserid;
+}
+void Vehicle::vehicleDetails(int vID, const char vOwner, Admin_Panel* pstaff)
+{ }
+void Vehicle::deleteVehicleDetails()
+{ }
+void Vehicle::updateVehicleDetails()
+{ }
+void Vehicle::displayvhlDetails()
+{ }
+void Vehicle::checkAvailability()
+{ }
+Vehicle::~Vehicle()
+{
+	//Destructor
+	for (int i = 0; i < SIZE1; i++)
+	{
+		delete plan[i];
+	}
+
+}
+
+
+#include "Payment.h"
+#include<cstring>
+#pragma warning(disable : 4996)
+
+Payment::Payment()
+{
+	payID = 0;
+	strcpy(payType, "");
+	payAmount = 0;
+}
+Payment::Payment(int pID, const char ppayType[], double ppayAmount)
+{
+	payID = pID;
+	strcpy(payType, ppayType);
+	payAmount = ppayAmount;
+}
+void Payment::checkPayment()
+{ }
+void Payment::confirmPayment()
+{ }
+void Payment::displayPaymentDetails()
+{ }
+Payment::~Payment()
+{
+	//Destructor
+}
+
+
+
+#include "Payment.h"
+#include "Subcription.h"
+#include<cstring>
+#pragma warning(disable : 4996)
+Subcription::Subcription()
+{
+	strcpy(PlanID, "");
+	strcpy(PlanDate, "");
+	strcpy(PlanDescription, "");
+	PlanPrice = 0;
+}
+Subcription::Subcription(const char pplanID[], const char pplanDate[], const char pplanDescription[], double pplanPrice, int pay1, int pay2)
+{
+	strcpy(PlanID, pplanID);
+	strcpy(PlanDate, pplanDate);
+	strcpy(PlanDescription, pplanDescription);
+	PlanPrice = 0;
+}
+void Subcription::calculatePlanPrice(int id, char pType[], double pAmt)
+{
+	if (count < SIZE)
+	{
+		payment[count] = new Payment(id, pType, pAmt);
+		count++;
+	}
+}
+void Subcription::displayPlanPrice()
+{ }
+void Subcription::addSubcription()
+{ }
+Subcription::~Subcription()
+{
+	//Destructor
+	for (int i = 0; i < SIZE; i++)
+	{
+		delete payment[i];
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include "Report.h"
+Report::Report()
+{
+	for (int i = 0; i < SIZE1; i++)
+	{
+		plan[i] = 0;
+	}
+
+	for (int k = 0; k < SIZE3; k++)
+	{
+		pay[k] = 0;
+	}
+}
+Report::Report(Subcription* pplan[], Payment* ppay[])
+{
+	for (int i = 0; i < SIZE1; i++)
+	{
+		plan[i] = pplan[i];
+	}
+	for (int k = 0; k < SIZE3; k++)
+	{
+		pay[k] = ppay[k];
+	}
+}
+void Report::planingDetailsReport()
+{ }
+void Report::paymentDetailsReport()
+{ }
+Report::~Report()
+{
+	//Destructor
+	for (int i = 0; i < SIZE1; i++)
+	{
+		delete plan[i];
+	}
+	for (int k = 0; k < SIZE3; k++)
+	{
+		delete pay[k];
+	}
+}
+
+
+
+
+
+
+
+
+#pragma warning(disable : 4996)
+#include "Admin_Panel.h"
+#include "Vehicle.h"
+#include "Unreg_User.h"
+#include "Payment.h"
+#include "Reg_User.h"
+#include "Subcription.h"
+#include <iostream>
+#include "Report.h"
+using namespace std;
+int main()
+{
+	
+	Unreg_User* rg = new Reg_User(); 
+	Vehicle* vhl = new Vehicle(); 
+	Subcription* planing = new Subcription(); 
+	Admin_Panel* staff = new Admin_Panel(); 
+	Report* report = new Report();
+	
+	rg->login();
+	rg->displayDetails();
+	vhl->checkAvailability();
+	planing->addSubcription();
+	planing->displayPlanPrice();
+	report->planingDetailsReport();
+	report->paymentDetailsReport();
+
+	delete rg;
+	delete vhl;
+	delete planing;
+	delete report;
+	return 0;
+}
